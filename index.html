@@ -1,83 +1,149 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>ukWDOLL • ЗИМНИЙ МАГАЗИН</title>
+    <title>ukWDOLL • DRILL SHOP</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
             color: #e0e0e0;
             padding: 10px;
             position: relative;
             overflow-x: hidden;
             min-height: 100vh;
+            font-family: 'Oswald', sans-serif;
         }
         
-        /* Падающий снег */
-        .snow {
-            position: absolute;
-            top: -10px;
+        /* DRILL шрифт для заголовков */
+        .drill-font {
+            font-family: 'Anton', sans-serif;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        /* Языковой выбор */
+        .language-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+        
+        .language-buttons {
+            text-align: center;
+        }
+        
+        .lang-btn {
+            background: #8B0000;
             color: white;
-            font-size: 20px;
-            animation: snowFall 10s linear infinite;
-            opacity: 0.7;
-            pointer-events: none;
-            z-index: 1;
+            border: none;
+            padding: 20px 40px;
+            margin: 10px;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            font-family: 'Anton', sans-serif;
+            letter-spacing: 1px;
+            transition: all 0.3s;
         }
         
-        @keyframes snowFall {
-            0% { transform: translateY(-10px) rotate(0deg); opacity: 0.7; }
-            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        .lang-btn:hover {
+            background: #ff0000;
+            transform: scale(1.05);
         }
         
-        /* Парящие картинки на фоне */
-        .floating-img {
-            position: absolute;
-            opacity: 0.1;
-            animation: float 20s infinite ease-in-out;
-            z-index: 0;
-            pointer-events: none;
+        /* Админ кнопка */
+        .admin-btn {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: transparent;
+            color: #8B0000;
+            border: 1px solid #8B0000;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            cursor: pointer;
+            z-index: 1000;
+            opacity: 0.3;
+            transition: all 0.3s;
         }
         
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
+        .admin-btn:hover {
+            opacity: 1;
+            background: #8B0000;
+            color: white;
         }
         
+        /* Админ панель */
+        .admin-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .admin-content {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 2px solid #8B0000;
+        }
+        
+        .admin-input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            background: #2a2a2a;
+            border: 1px solid #8B0000;
+            border-radius: 5px;
+            color: white;
+        }
+        
+        /* Остальные стили остаются похожими, но с обновленными цветами */
         .header {
             text-align: center;
             padding: 15px 0;
             margin-bottom: 20px;
-            background: rgba(42, 42, 42, 0.9);
+            background: rgba(26, 26, 26, 0.9);
             border-radius: 15px;
-            position: relative;
-            z-index: 2;
-            border: 1px solid #ff6b6b;
+            border: 2px solid #8B0000;
         }
         
         .title {
-            font-size: 22px;
-            color: #ff6b6b;
+            font-size: 24px;
+            color: #8B0000;
             margin-bottom: 5px;
-            text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
-        }
-        
-        .subtitle {
-            font-size: 12px;
-            color: #888;
+            text-shadow: 0 0 10px rgba(139, 0, 0, 0.5);
         }
         
         .category-btn {
             background: rgba(42, 42, 42, 0.9);
-            border: none;
+            border: 2px solid #8B0000;
             color: #fff;
             padding: 15px;
             margin: 5px 0;
@@ -86,14 +152,7 @@
             width: 100%;
             cursor: pointer;
             transition: all 0.3s;
-            border-left: 4px solid #ff6b6b;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .category-btn:hover {
-            background: rgba(58, 58, 58, 0.9);
-            transform: translateX(5px);
+            font-family: 'Oswald', sans-serif;
         }
         
         .product {
@@ -101,249 +160,206 @@
             border-radius: 15px;
             padding: 15px;
             margin: 10px 0;
-            animation: slideIn 0.5s ease;
-            position: relative;
-            z-index: 2;
             border: 1px solid #333;
+            animation: slideIn 0.5s ease;
         }
         
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .product-image {
-            width: 60px;
-            height: 60px;
-            background: #3a3a3a;
-            border-radius: 10px;
-            float: left;
-            margin-right: 15px;
+        .cart-item-controls {
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 5px;
-        }
-        
-        .product-image img {
-            max-width: 100%;
-            max-height: 100%;
-        }
-        
-        .product-info {
-            overflow: hidden;
-        }
-        
-        .product-name {
-            color: #fff;
-            font-size: 16px;
-            margin-bottom: 5px;
-        }
-        
-        .product-desc {
-            color: #888;
-            font-size: 12px;
-            margin-bottom: 8px;
-        }
-        
-        .product-price {
-            color: #ff6b6b;
-            font-size: 18px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-        }
-        
-        .product-old-price {
-            color: #666;
-            text-decoration: line-through;
-            font-size: 12px;
-            margin-left: 10px;
-        }
-        
-        .quantity-controls {
-            display: flex;
-            align-items: center;
+            gap: 10px;
             margin-top: 10px;
         }
         
-        .quantity-btn {
-            background: #3a3a3a;
+        .remove-btn {
+            background: #8B0000;
+            color: white;
             border: none;
-            color: #fff;
-            width: 30px;
-            height: 30px;
+            padding: 5px 10px;
             border-radius: 5px;
             cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .quantity-btn:hover {
-            background: #ff6b6b;
-        }
-        
-        .quantity {
-            margin: 0 10px;
-            color: #fff;
-            min-width: 20px;
-            text-align: center;
-        }
-        
-        .cart-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #ff6b6b;
-            color: #fff;
-            border: none;
-            padding: 15px 20px;
-            border-radius: 50px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
-            animation: pulse 2s infinite;
-            position: relative;
-            z-index: 1000;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        .cart-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-        
-        .cart-content {
-            background: #2a2a2a;
-            padding: 20px;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 400px;
-            max-height: 80vh;
-            overflow-y: auto;
-            border: 2px solid #ff6b6b;
-        }
-        
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #3a3a3a;
-        }
-        
-        .order-btn {
-            background: #ff6b6b;
-            color: #fff;
-            border: none;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 16px;
-            width: 100%;
-            margin-top: 15px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: bold;
-        }
-        
-        .order-btn:hover {
-            background: #ff5252;
-            transform: translateY(-2px);
         }
     </style>
 </head>
 <body>
-    <!-- Падающий снег -->
-    <div id="snowContainer"></div>
-    
-    <!-- Парящие картинки на фоне -->
-    <div class="floating-img" style="top: 10%; left: 5%;">
-        <img width="80" height="80" src="https://img.icons8.com/pastel-glyph/64/whiskey.png" alt="whiskey"/>
+    <!-- Выбор языка -->
+    <div class="language-modal" id="languageModal">
+        <div class="language-buttons">
+            <div style="color: #8B0000; font-size: 24px; margin-bottom: 20px;" class="drill-font">ukWDOLL</div>
+            <button class="lang-btn" onclick="setLanguage('ru')">РУССКИЙ</button>
+            <button class="lang-btn" onclick="setLanguage('en')">ENGLISH</button>
+        </div>
     </div>
-    <div class="floating-img" style="top: 30%; right: 10%;">
-        <img width="70" height="70" src="https://img.icons8.com/papercut/60/shampoo.png" alt="shampoo"/>
-    </div>
-    <div class="floating-img" style="top: 60%; left: 15%;">
-        <img width="75" height="75" src="https://img.icons8.com/emoji/48/cheese-wedge-emoji.png" alt="cheese-wedge-emoji"/>
-    </div>
-    <div class="floating-img" style="top: 80%; right: 5%;">
-        <img width="65" height="65" src="https://img.icons8.com/office/40/ruble.png" alt="ruble"/>
+
+    <!-- Админ кнопка -->
+    <button class="admin-btn" onclick="showAdminPanel()">ADMIN</button>
+
+    <!-- Админ панель -->
+    <div class="admin-modal" id="adminModal">
+        <div class="admin-content">
+            <h3 class="drill-font" style="color: #8B0000; text-align: center; margin-bottom: 20px;">ADMIN PANEL</h3>
+            
+            <input type="text" id="adminProductName" class="admin-input" placeholder="Product Name">
+            <input type="number" id="adminProductPrice" class="admin-input" placeholder="Price">
+            <input type="number" id="adminProductOldPrice" class="admin-input" placeholder="Old Price">
+            <input type="text" id="adminProductDesc" class="admin-input" placeholder="Description">
+            <input type="text" id="adminProductImage" class="admin-input" placeholder="Image URL">
+            
+            <select id="adminProductCategory" class="admin-input">
+                <option value="alcohol">Alcohol</option>
+                <option value="hygiene">Hygiene</option>
+                <option value="food">Food</option>
+            </select>
+            
+            <button class="lang-btn" style="width: 100%; margin: 10px 0;" onclick="addProduct()">ADD PRODUCT</button>
+            <button class="remove-btn" style="width: 100%;" onclick="hideAdminPanel()">CLOSE</button>
+            
+            <div id="adminProductsList" style="margin-top: 20px;"></div>
+        </div>
     </div>
 
     <div class="header">
-        <div class="title">🎄 ukWDOLL ЗИМНИЙ МАГАЗИН</div>
-        <div class="subtitle">Лысьва • Чусовой • Зимние скидки до 70%</div>
+        <div class="title drill-font" id="storeTitle">ukWDOLL DRILL SHOP</div>
+        <div class="subtitle" id="storeSubtitle">Лысьва • Чусовой • Цены на 50-70% ниже</div>
+        <button class="category-btn" onclick="showLegend()" id="legendBtn">ℹ️ О МАГАЗИНЕ</button>
     </div>
 
-    <button class="category-btn" onclick="showCategory('alcohol')">🥃 АЛКОГОЛЬ</button>
-    <button class="category-btn" onclick="showCategory('hygiene')">🧴 ГИГИЕНА</button>
-    <button class="category-btn" onclick="showCategory('food')">🍕 ПРОДУКТЫ</button>
+    <button class="category-btn" onclick="showCategory('alcohol')" id="alcoholBtn">🥃 АЛКОГОЛЬ</button>
+    <button class="category-btn" onclick="showCategory('hygiene')" id="hygieneBtn">🧴 ГИГИЕНА</button>
+    <button class="category-btn" onclick="showCategory('food')" id="foodBtn">🍕 ПРОДУКТЫ</button>
 
     <div id="products"></div>
 
-    <button class="cart-btn" onclick="showCart()">🛒 Корзина (<span id="cart-count">0</span>)</button>
+    <button class="cart-btn" onclick="showCart()">🛒 <span id="cartText">Корзина</span> (<span id="cart-count">0</span>)</button>
 
+    <!-- Модальное окно корзины -->
     <div class="cart-modal" id="cartModal">
         <div class="cart-content">
-            <h3 style="color: #ff6b6b; margin-bottom: 15px;">🛒 Ваш заказ</h3>
+            <h3 style="color: #8B0000; margin-bottom: 15px;">🛒 <span id="cartTitle">Ваш заказ</span></h3>
             <div id="cart-items"></div>
             <div id="cart-total" style="margin-top: 15px;"></div>
-            <button class="order-btn" onclick="sendOrder()">📞 ОФОРМИТЬ ЗАКАЗ</button>
-            <button class="quantity-btn" onclick="hideCart()" style="margin-top: 10px; width: 100%; background: #666;">✖ Закрыть</button>
+            <button class="order-btn" onclick="sendOrder()" id="orderBtn">📞 ОФОРМИТЬ ЗАКАЗ</button>
+            <button class="quantity-btn" onclick="hideCart()" style="margin-top: 10px; width: 100%; background: #666;" id="closeCartBtn">✖ Закрыть</button>
+        </div>
+    </div>
+
+    <!-- Легенда магазина -->
+    <div class="cart-modal" id="legendModal">
+        <div class="cart-content">
+            <h3 style="color: #8B0000; margin-bottom: 15px;" id="legendTitle">💎 О МАГАЗИНЕ</h3>
+            <div id="legendText" style="line-height: 1.6;">
+                <!-- Текст легенды будет заполняться в зависимости от языка -->
+            </div>
+            <button class="quantity-btn" onclick="hideLegend()" style="margin-top: 10px; width: 100%; background: #666;">✖ Закрыть</button>
         </div>
     </div>
 
     <script>
+        // Переводы
+        const translations = {
+            ru: {
+                title: "ukWDOLL DRILL SHOP",
+                subtitle: "Лысьва • Чусовой • Цены на 50-70% ниже",
+                alcoholBtn: "🥃 АЛКОГОЛЬ",
+                hygieneBtn: "🧴 ГИГИЕНА", 
+                foodBtn: "🍕 ПРОДУКТЫ",
+                legendBtn: "ℹ️ О МАГАЗИНЕ",
+                cartText: "Корзина",
+                cartTitle: "Ваш заказ",
+                orderBtn: "📞 ОФОРМИТЬ ЗАКАЗ",
+                closeCartBtn: "✖ Закрыть",
+                legendTitle: "💎 О МАГАЗИНЕ",
+                legendText: `<p><strong>ukWDOLL - это сообщество выгодных покупок в Пермском крае.</strong></p>
+                            <p>Мы работаем с крупными дистрибьюторами и предлагаем товары из сетей Магнит, Пятерочка, Дикси по себестоимости.</p>
+                            <p><strong>Почему так дёшево?</strong><br>
+                            - Закупаем оптом у дистрибьюторов<br>
+                            - Без наценок розничных сетей<br>
+                            - Товары с небольшим браком упаковки<br>
+                            - Излишки крупных поставок</p>
+                            <p>Все товары абсолютно легальны и безопасны. Мы даем товару вторую жизнь, а вам - реальную экономию!</p>`
+            },
+            en: {
+                title: "ukWDOLL DRILL SHOP", 
+                subtitle: "Lysva • Chusovoy • Prices 50-70% lower",
+                alcoholBtn: "🥃 ALCOHOL",
+                hygieneBtn: "🧴 HYGIENE",
+                foodBtn: "🍕 FOOD",
+                legendBtn: "ℹ️ ABOUT STORE",
+                cartText: "Cart",
+                cartTitle: "Your order", 
+                orderBtn: "📞 PLACE ORDER",
+                closeCartBtn: "✖ Close",
+                legendTitle: "💎 ABOUT STORE",
+                legendText: `<p><strong>ukWDOLL - profitable shopping community in Perm Region.</strong></p>
+                            <p>We work with major distributors and offer products from Magnit, Pyaterochka, Dixi chains at cost price.</p>
+                            <p><strong>Why so cheap?</strong><br>
+                            - We buy wholesale from distributors<br>
+                            - No retail markups<br>
+                            - Products with minor packaging defects<br>
+                            - Surplus from large shipments</p>
+                            <p>All products are completely legal and safe. We give products a second life, and you get real savings!</p>`
+            }
+        };
+
+        // Товары с разными картинками
         const products = {
             alcohol: [
                 {id: 1, name: "JAGERMEISTER", price: 1200, oldPrice: 2500, desc: "700ml • 35%", image: "https://img.icons8.com/pastel-glyph/64/whiskey.png"},
-                {id: 2, name: "JACK DANIEL'S", price: 1500, oldPrice: 3000, desc: "700ml • 40%", image: "https://img.icons8.com/pastel-glyph/64/whiskey.png"},
-                {id: 3, name: "ABSOLUT VODKA", price: 800, oldPrice: 1800, desc: "500ml • 40%", image: "https://img.icons8.com/pastel-glyph/64/whiskey.png"},
-                {id: 4, name: "JAMESON", price: 1300, oldPrice: 2600, desc: "700ml • 40%", image: "https://img.icons8.com/pastel-glyph/64/whiskey.png"}
+                {id: 2, name: "JACK DANIEL'S", price: 1500, oldPrice: 3000, desc: "700ml • 40%", image: "https://img.icons8.com/pastel-glyph/64/whiskey.png"}
             ],
             hygiene: [
-                {id: 5, name: "ШАМПУНЬ CLEAN", price: 85, oldPrice: 200, desc: "250ml • Для всех типов", image: "https://img.icons8.com/papercut/60/shampoo.png"},
-                {id: 6, name: "ГЕЛЬ ДУШ FRESH", price: 120, oldPrice: 280, desc: "500ml • Освежающий", image: "https://img.icons8.com/papercut/60/shampoo.png"},
-                {id: 7, name: "ЗУБНАЯ ПАСТА", price: 65, oldPrice: 150, desc: "100ml • Защита", image: "https://img.icons8.com/papercut/60/shampoo.png"},
-                {id: 8, name: "МЫЛО ЖИДКОЕ", price: 95, oldPrice: 220, desc: "300ml • Антибактериальное", image: "https://img.icons8.com/papercut/60/shampoo.png"}
+                {id: 3, name: "SHAMPOO CLEAN", price: 85, oldPrice: 200, desc: "250ml • For all types", image: "https://img.icons8.com/papercut/60/shampoo.png"},
+                {id: 4, name: "SHOWER GEL FRESH", price: 120, oldPrice: 280, desc: "500ml • Refreshing", image: "https://img.icons8.com/papercut/60/shampoo.png"}
             ],
             food: [
-                {id: 9, name: "СЫР РОССИЙСКИЙ", price: 180, oldPrice: 350, desc: "200g • 45%", image: "https://img.icons8.com/emoji/48/cheese-wedge-emoji.png"},
-                {id: 10, name: "МАСЛО СЛИВОЧНОЕ", price: 120, oldPrice: 250, desc: "180g • 82%", image: "https://img.icons8.com/emoji/48/cheese-wedge-emoji.png"},
-                {id: 11, name: "КОНСЕРВЫ ТУШЕНКА", price: 150, oldPrice: 300, desc: "338g • Говядина", image: "https://img.icons8.com/emoji/48/cheese-wedge-emoji.png"},
-                {id: 12, name: "ШОКОЛАД ALPEN", price: 65, oldPrice: 120, desc: "100g • Молочный", image: "https://img.icons8.com/emoji/48/cheese-wedge-emoji.png"}
+                {id: 5, name: "RUSSIAN CHEESE", price: 180, oldPrice: 350, desc: "200g • 45%", image: "https://img.icons8.com/emoji/48/cheese-wedge-emoji.png"},
+                {id: 6, name: "BUTTER", price: 120, oldPrice: 250, desc: "180g • 82%", image: "https://img.icons8.com/external-smashingstocks-outline-color-smashing-stocks/66/external-butter-food-and-drinks-smashingstocks-outline-color-smashing-stocks.png"}
             ]
         };
 
         let cart = {};
+        let currentLanguage = 'ru';
         let currentCategory = 'alcohol';
 
-        // Создаем снег
-        function createSnow() {
-            const container = document.getElementById('snowContainer');
-            for (let i = 0; i < 30; i++) {
-                const snow = document.createElement('div');
-                snow.className = 'snow';
-                snow.innerHTML = '❄';
-                snow.style.left = Math.random() * 100 + 'vw';
-                snow.style.animationDelay = Math.random() * 10 + 's';
-                snow.style.fontSize = (Math.random() * 10 + 10) + 'px';
-                container.appendChild(snow);
+        // Инициализация
+        function init() {
+            const savedLanguage = localStorage.getItem('ukwdoll_language');
+            if (savedLanguage) {
+                setLanguage(savedLanguage, false);
             }
+            showCategory('alcohol');
         }
 
+        // Установка языка
+        function setLanguage(lang, showAlert = true) {
+            currentLanguage = lang;
+            localStorage.setItem('ukwdoll_language', lang);
+            
+            // Обновляем все тексты
+            document.getElementById('storeTitle').textContent = translations[lang].title;
+            document.getElementById('storeSubtitle').textContent = translations[lang].subtitle;
+            document.getElementById('alcoholBtn').textContent = translations[lang].alcoholBtn;
+            document.getElementById('hygieneBtn').textContent = translations[lang].hygieneBtn;
+            document.getElementById('foodBtn').textContent = translations[lang].foodBtn;
+            document.getElementById('legendBtn').textContent = translations[lang].legendBtn;
+            document.getElementById('cartText').textContent = translations[lang].cartText;
+            document.getElementById('cartTitle').textContent = translations[lang].cartTitle;
+            document.getElementById('orderBtn').textContent = translations[lang].orderBtn;
+            document.getElementById('closeCartBtn').textContent = translations[lang].closeCartBtn;
+            document.getElementById('legendTitle').textContent = translations[lang].legendTitle;
+            document.getElementById('legendText').innerHTML = translations[lang].legendText;
+            
+            document.getElementById('languageModal').style.display = 'none';
+            
+            if (showAlert) {
+                alert(lang === 'ru' ? 'Язык изменен!' : 'Language changed!');
+            }
+            
+            // Перерисовываем товары
+            showCategory(currentCategory);
+        }
+
+        // Показать категорию товаров
         function showCategory(category) {
             currentCategory = category;
             const productsDiv = document.getElementById('products');
@@ -353,14 +369,14 @@
                 productsDiv.innerHTML += `
                     <div class="product">
                         <div class="product-image">
-                            <img src="${product.image}" alt="${product.name}">
+                            <img src="${product.image}" alt="${product.name}" width="50" height="50">
                         </div>
                         <div class="product-info">
                             <div class="product-name">${product.name}</div>
                             <div class="product-desc">${product.desc}</div>
                             <div class="product-price">
                                 ${product.price} 
-                                <img width="16" height="16" src="https://img.icons8.com/office/40/ruble.png" alt="ruble" style="margin-left: 5px;">
+                                <img width="16" height="16" src="https://img.icons8.com/office/40/ruble.png" alt="ruble">
                                 <span class="product-old-price">${product.oldPrice} ₽</span>
                             </div>
                             <div class="quantity-controls">
@@ -374,6 +390,86 @@
             });
         }
 
+        // Админ панель
+        function showAdminPanel() {
+            const password = prompt(currentLanguage === 'ru' ? "Введите пароль:" : "Enter password:");
+            if (password === "13579") { // Пароль можно поменять
+                document.getElementById('adminModal').style.display = 'flex';
+                loadAdminProducts();
+            } else {
+                alert(currentLanguage === 'ru' ? "Неверный пароль!" : "Wrong password!");
+            }
+        }
+
+        function hideAdminPanel() {
+            document.getElementById('adminModal').style.display = 'none';
+        }
+
+        function addProduct() {
+            const name = document.getElementById('adminProductName').value;
+            const price = parseInt(document.getElementById('adminProductPrice').value);
+            const oldPrice = parseInt(document.getElementById('adminProductOldPrice').value);
+            const desc = document.getElementById('adminProductDesc').value;
+            const image = document.getElementById('adminProductImage').value;
+            const category = document.getElementById('adminProductCategory').value;
+            
+            if (!name || !price) {
+                alert("Заполните название и цену!");
+                return;
+            }
+            
+            const newId = Date.now(); // Генерируем ID на основе времени
+            const newProduct = {
+                id: newId,
+                name: name,
+                price: price,
+                oldPrice: oldPrice,
+                desc: desc,
+                image: image
+            };
+            
+            if (!products[category]) {
+                products[category] = [];
+            }
+            
+            products[category].push(newProduct);
+            loadAdminProducts();
+            
+            // Очищаем поля
+            document.getElementById('adminProductName').value = '';
+            document.getElementById('adminProductPrice').value = '';
+            document.getElementById('adminProductOldPrice').value = '';
+            document.getElementById('adminProductDesc').value = '';
+            document.getElementById('adminProductImage').value = '';
+            
+            alert("Товар добавлен!");
+        }
+
+        function loadAdminProducts() {
+            const list = document.getElementById('adminProductsList');
+            list.innerHTML = '<h4>Товары:</h4>';
+            
+            for (const category in products) {
+                products[category].forEach(product => {
+                    list.innerHTML += `
+                        <div style="border-bottom: 1px solid #333; padding: 10px 0;">
+                            <strong>${product.name}</strong> - ${product.price}₽
+                            <button class="remove-btn" onclick="removeProduct(${product.id})" style="margin-left: 10px;">Удалить</button>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        function removeProduct(productId) {
+            for (const category in products) {
+                products[category] = products[category].filter(p => p.id !== productId);
+            }
+            loadAdminProducts();
+            showCategory(currentCategory); // Обновляем отображение
+        }
+
+        // Функции корзины
         function changeQuantity(productId, change) {
             if (!cart[productId]) cart[productId] = 0;
             cart[productId] += change;
@@ -407,11 +503,19 @@
                         
                         itemsDiv.innerHTML += `
                             <div class="cart-item">
-                                <div style="display: flex; align-items: center;">
-                                    <img src="${product.image}" alt="${product.name}" width="30" height="30" style="margin-right: 10px;">
-                                    ${product.name} ×${cart[productId]}
+                                <div style="display: flex; align-items: center; justify-content: space-between;">
+                                    <div style="display: flex; align-items: center;">
+                                        <img src="${product.image}" alt="${product.name}" width="30" height="30" style="margin-right: 10px;">
+                                        ${product.name} ×${cart[productId]}
+                                    </div>
+                                    <div>${sum} ₽</div>
                                 </div>
-                                <div>${sum} ₽</div>
+                                <div class="cart-item-controls">
+                                    <button class="quantity-btn" onclick="changeQuantity(${product.id}, -1)">-</button>
+                                    <span class="quantity">${cart[productId]}</span>
+                                    <button class="quantity-btn" onclick="changeQuantity(${product.id}, 1)">+</button>
+                                    <button class="remove-btn" onclick="removeFromCart(${product.id})">🗑️</button>
+                                </div>
                             </div>
                         `;
                     }
@@ -419,17 +523,25 @@
             });
             
             if (itemCount === 0) {
-                itemsDiv.innerHTML = '<div style="text-align: center; color: #888; padding: 20px;">Корзина пуста</div>';
+                itemsDiv.innerHTML = '<div style="text-align: center; color: #888; padding: 20px;">' + 
+                    (currentLanguage === 'ru' ? 'Корзина пуста' : 'Cart is empty') + '</div>';
             }
             
             totalDiv.innerHTML = itemCount > 0 ? `
                 <div style="border-top: 1px solid #444; padding-top: 10px;">
-                    <h4 style="color: #ff6b6b;">Итого: ${total} 
-                    <img width="16" height="16" src="https://img.icons8.com/office/40/ruble.png" alt="ruble" style="margin-left: 5px;">
+                    <h4 style="color: #8B0000;">${currentLanguage === 'ru' ? 'Итого' : 'Total'}: ${total} 
+                    <img width="16" height="16" src="https://img.icons8.com/office/40/ruble.png" alt="ruble">
                     </h4>
                 </div>
             ` : '';
             modal.style.display = 'flex';
+        }
+
+        function removeFromCart(productId) {
+            cart[productId] = 0;
+            showCart();
+            updateCartCount();
+            showCategory(currentCategory);
         }
 
         function hideCart() {
@@ -445,7 +557,7 @@
         }
 
         function sendOrder() {
-            let orderText = "🛒 ЗАКАЗ из ukWDOLL:\n\n";
+            let orderText = currentLanguage === 'ru' ? "🛒 ЗАКАЗ из ukWDOLL:\n\n" : "🛒 ORDER from ukWDOLL:\n\n";
             let total = 0;
             
             Object.keys(cart).forEach(productId => {
@@ -459,19 +571,27 @@
                 }
             });
             
-            orderText += `\n💰 ОБЩАЯ СУММА: ${total}₽`;
-            orderText += `\n📍 Город: ________`;
-            orderText += `\n📞 Телефон: ________`;
-            orderText += `\n🏠 Адрес: ________`;
-            orderText += `\n\nДля оформления заказа свяжитесь с @HXNS_59Gz`;
+            orderText += `\n💰 ${currentLanguage === 'ru' ? 'ОБЩАЯ СУММА' : 'TOTAL'}: ${total}₽`;
+            orderText += `\n📍 ${currentLanguage === 'ru' ? 'Город' : 'City'}: ________`;
+            orderText += `\n📞 ${currentLanguage === 'ru' ? 'Телефон' : 'Phone'}: ________`;
+            orderText += `\n🏠 ${currentLanguage === 'ru' ? 'Адрес' : 'Address'}: ________`;
+            orderText += `\n\n${currentLanguage === 'ru' ? 'Для оформления заказа свяжитесь с' : 'For order contact'} @HXNS_59Gz`;
             
             const telegramUrl = `https://t.me/HXNS_59Gz?text=${encodeURIComponent(orderText)}`;
             window.open(telegramUrl, '_blank');
         }
 
-        // Инициализация
-        createSnow();
-        showCategory('alcohol');
+        // Легенда магазина
+        function showLegend() {
+            document.getElementById('legendModal').style.display = 'flex';
+        }
+
+        function hideLegend() {
+            document.getElementById('legendModal').style.display = 'none';
+        }
+
+        // Запускаем при загрузке
+        window.onload = init;
     </script>
 </body>
 </html>
