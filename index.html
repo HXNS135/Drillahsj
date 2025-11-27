@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ukWDOLL • DRILL SHOP</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial Black', sans-serif;
+        }
+        
+        body {
+            background: #000;
+            color: #fff;
+            padding: 10px;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 15px 0;
+            border-bottom: 2px solid #8B0000;
+            margin-bottom: 20px;
+        }
+        
+        .title {
+            font-size: 24px;
+            color: #8B0000;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .subtitle {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .category-btn {
+            background: #111;
+            border: 1px solid #8B0000;
+            color: #fff;
+            padding: 15px;
+            margin: 8px 0;
+            border-radius: 8px;
+            font-size: 16px;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .category-btn:hover {
+            background: #8B0000;
+            transform: translateX(5px);
+        }
+        
+        .product {
+            background: #111;
+            border: 1px solid #333;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+        
+        .product-name {
+            color: #8B0000;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .product-price {
+            color: #fff;
+            font-size: 18px;
+        }
+        
+        .product-old-price {
+            color: #666;
+            text-decoration: line-through;
+            font-size: 12px;
+        }
+        
+        .add-btn {
+            background: #8B0000;
+            color: #000;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        .cart {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: #8B0000;
+            color: #000;
+            padding: 10px 15px;
+            border-radius: 50%;
+            font-weight: bold;
+        }
+        
+        .contact {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            background: #111;
+            border-radius: 8px;
+        }
+        
+        .contact a {
+            color: #8B0000;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="title">ukWDOLL • DRILL SHOP</div>
+        <div class="subtitle">Лысьва • Чусовой • 50-70% НИЖЕ</div>
+    </div>
+
+    <button class="category-btn" onclick="showCategory('hygiene')">❶ ГИГИЕНА</button>
+    <button class="category-btn" onclick="showCategory('food')">❷ ПРОДУКТЫ</button>
+    <button class="category-btn" onclick="showCategory('clothes')">❸ ОДЕЖДА</button>
+
+    <div id="products"></div>
+
+    <div class="contact">
+        📞 ДЛЯ ЗАКАЗА: <a href="https://t.me/HXNS_59Gz">@HXNS_59Gz</a><br>
+        <span style="color: #666; font-size: 12px;">Цены на 50-70% ниже магазинов</span>
+    </div>
+
+    <div class="cart" id="cart">0</div>
+
+    <script>
+        const products = {
+            hygiene: [
+                {name: "🫧 ШАМПУНЬ CLEAN", price: 85, oldPrice: 200},
+                {name: "🧴 ГЕЛЬ ДУШ FRESH", price: 120, oldPrice: 280},
+                {name: "🪥 ЗУБНАЯ ПАСТА", price: 65, oldPrice: 150}
+            ],
+            food: [
+                {name: "🍫 ШОКОЛАД ALPEN", price: 65, oldPrice: 120},
+                {name: "🥛 МОЛОКО 1Л", price: 55, oldPrice: 80},
+                {name: "🍞 ХЛЕБ", price: 25, oldPrice: 40}
+            ],
+            clothes: [
+                {name: "👕 ФУТБОЛКА BLACK", price: 250, oldPrice: 500},
+                {name: "👖 ДЖИНСЫ DRILL", price: 800, oldPrice: 1500}
+            ]
+        };
+
+        let cartCount = 0;
+
+        function showCategory(category) {
+            const productsDiv = document.getElementById('products');
+            productsDiv.innerHTML = '';
+            
+            products[category].forEach(product => {
+                productsDiv.innerHTML += `
+                    <div class="product">
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-price">${product.price} РУБ</div>
+                        <div class="product-old-price">было ${product.oldPrice} руб</div>
+                        <button class="add-btn" onclick="addToCart()">+ В КОРЗИНУ</button>
+                    </div>
+                `;
+            });
+        }
+
+        function addToCart() {
+            cartCount++;
+            document.getElementById('cart').textContent = cartCount;
+        }
+
+        // Показываем гигиену по умолчанию
+        showCategory('hygiene');
+    </script>
+</body>
+</html>
