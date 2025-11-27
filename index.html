@@ -30,9 +30,59 @@
             overflow-x: hidden;
             min-height: 100vh;
             font-family: 'Oswald', sans-serif;
-            background-image: 
-                radial-gradient(circle at 20% 80%, rgba(139, 0, 0, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 50%);
+        }
+
+        /* АНИМИРОВАННЫЙ ФОН */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .floating-bg {
+            position: absolute;
+            opacity: 0.1;
+            animation: floatBg 20s infinite linear;
+        }
+
+        .floating-bg:nth-child(1) {
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+            animation-duration: 25s;
+        }
+
+        .floating-bg:nth-child(2) {
+            top: 60%;
+            left: 80%;
+            animation-delay: 5s;
+            animation-duration: 30s;
+        }
+
+        .floating-bg:nth-child(3) {
+            top: 30%;
+            left: 70%;
+            animation-delay: 10s;
+            animation-duration: 20s;
+        }
+
+        .floating-bg:nth-child(4) {
+            top: 80%;
+            left: 20%;
+            animation-delay: 15s;
+            animation-duration: 35s;
+        }
+
+        @keyframes floatBg {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(100px, 50px) rotate(90deg); }
+            50% { transform: translate(50px, 100px) rotate(180deg); }
+            75% { transform: translate(-50px, 50px) rotate(270deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
         }
         
         /* DRILL ШРИФТЫ */
@@ -58,11 +108,6 @@
             0% { box-shadow: 0 0 10px var(--main-red); }
             50% { box-shadow: 0 0 25px var(--main-red), 0 0 35px var(--main-gold); }
             100% { box-shadow: 0 0 10px var(--main-red); }
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(5deg); }
         }
         
         @keyframes pulse {
@@ -120,7 +165,6 @@
             border: 3px solid var(--main-gold);
             padding: 3px;
             background: var(--dark-gray);
-            animation: float 6s ease-in-out infinite;
             overflow: hidden;
         }
         
@@ -211,6 +255,37 @@
             box-shadow: 0 8px 25px rgba(139, 0, 0, 0.4);
             background: linear-gradient(135deg, var(--light-gray) 0%, #333 100%);
         }
+
+        /* НАВИГАЦИЯ */
+        .nav-tabs {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            background: var(--dark-gray);
+            border-radius: 15px;
+            padding: 10px;
+            border: 2px solid var(--main-red);
+        }
+
+        .nav-tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s;
+            font-family: 'Russo One', sans-serif;
+            text-align: center;
+            flex: 1;
+            margin: 0 5px;
+        }
+
+        .nav-tab.active {
+            background: var(--main-red);
+            color: var(--text-white);
+        }
+
+        .nav-tab:hover {
+            background: var(--light-gray);
+        }
         
         /* ТОВАРЫ */
         .product {
@@ -229,6 +304,26 @@
             border-color: var(--main-red);
             transform: translateY(-8px) scale(1.02);
             box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+        }
+
+        .favorite-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: transparent;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .favorite-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .favorite-btn.active {
+            color: var(--main-red);
         }
         
         .product-image {
@@ -417,70 +512,57 @@
             background: linear-gradient(90deg, var(--main-red), var(--main-gold), var(--main-red));
         }
         
-        /* КАРТОЧКА ТОВАРА */
-        .product-modal-content {
-            max-width: 600px;
-            background: linear-gradient(135deg, var(--dark-gray) 0%, #222 100%);
-        }
-        
-        .product-gallery {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            overflow-x: auto;
-            padding: 10px 0;
-        }
-        
-        .gallery-item {
-            width: 80px;
-            height: 80px;
-            border-radius: 10px;
-            border: 2px solid var(--main-red);
-            cursor: pointer;
-            transition: all 0.3s;
-            object-fit: cover;
-        }
-        
-        .gallery-item:hover {
-            border-color: var(--main-gold);
-            transform: scale(1.1);
-        }
-        
-        .product-video {
-            width: 100%;
+        /* ОТЗЫВЫ */
+        .review-card {
+            background: linear-gradient(135deg, var(--dark-gray) 0%, var(--light-gray) 100%);
             border-radius: 15px;
+            padding: 20px;
             margin: 15px 0;
-            background: var(--main-black);
             border: 2px solid var(--main-red);
+            animation: slideIn 0.6s ease;
         }
-        
-        .video-placeholder {
-            width: 100%;
-            height: 250px;
-            background: var(--main-black);
-            border-radius: 15px;
+
+        .review-header {
             display: flex;
             align-items: center;
-            justify-content: center;
-            color: var(--text-gray);
-            border: 2px dashed var(--main-red);
+            margin-bottom: 15px;
+        }
+
+        .review-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+            border: 2px solid var(--main-gold);
+        }
+
+        .review-info {
+            flex: 1;
+        }
+
+        .review-name {
             font-family: 'Russo One', sans-serif;
+            color: var(--text-white);
+            font-size: 18px;
         }
-        
-        /* СМАЙЛЫ АНИМАЦИИ */
-        .floating-emoji {
-            position: absolute;
-            font-size: 28px;
-            opacity: 0;
-            animation: float 8s infinite ease-in-out;
-            z-index: 1;
-            pointer-events: none;
-            filter: drop-shadow(0 0 8px rgba(255,215,0,0.6));
+
+        .review-city {
+            color: var(--main-gold);
+            font-size: 14px;
+            font-family: 'Oswald', sans-serif;
         }
-        
-        .emoji-discount { color: #ff4444; }
-        .emoji-quality { color: #44ff44; }
-        .emoji-order { color: #4444ff; }
+
+        .review-rating {
+            color: var(--main-gold);
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
+        .review-text {
+            color: var(--text-gray);
+            line-height: 1.5;
+            font-family: 'Oswald', sans-serif;
+        }
         
         /* ЭЛЕМЕНТЫ КОРЗИНЫ */
         .cart-item {
@@ -619,14 +701,19 @@
             font-size: 14px;
             font-family: 'Oswald', sans-serif;
         }
-        
-        /* ДЕКОРАТИВНЫЕ ЭЛЕМЕНТЫ */
-        .floating-badge {
-            position: absolute;
-            font-size: 16px;
-            animation: float 6s infinite ease-in-out;
-            z-index: 2;
-            pointer-events: none;
+
+        .admin-textarea {
+            width: 100%;
+            padding: 14px;
+            margin: 10px 0;
+            background: var(--main-black);
+            border: 2px solid var(--main-red);
+            border-radius: 12px;
+            color: white;
+            font-size: 14px;
+            font-family: 'Oswald', sans-serif;
+            min-height: 100px;
+            resize: vertical;
         }
         
         /* АДАПТИВНОСТЬ */
@@ -647,22 +734,32 @@
                 font-size: 20px;
                 padding: 10px 16px;
             }
+
+            .nav-tabs {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .nav-tab {
+                margin: 5px 0;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- ДЕКОРАТИВНЫЕ СМАЙЛЫ -->
-    <div class="floating-emoji emoji-discount" style="top: 5%; left: 3%;">🛒</div>
-    <div class="floating-emoji emoji-quality" style="top: 15%; right: 5%;">🔥</div>
-    <div class="floating-emoji emoji-order" style="top: 35%; left: 8%;">💎</div>
-    <div class="floating-emoji emoji-discount" style="top: 65%; right: 3%;">💰</div>
-    <div class="floating-emoji emoji-quality" style="top: 80%; left: 5%;">🎯</div>
+    <!-- АНИМИРОВАННЫЙ ФОН -->
+    <div class="bg-animation">
+        <div class="floating-bg">💎</div>
+        <div class="floating-bg">🔥</div>
+        <div class="floating-bg">💰</div>
+        <div class="floating-bg">🎯</div>
+    </div>
 
     <!-- ВЫБОР ЯЗЫКА -->
     <div class="modal" id="languageModal">
         <div class="modal-content">
             <div class="logo" style="margin: 0 auto 25px; width: 120px; height: 120px;">
-                <img src="https://i.ibb.co/Cs12DxyK/116ff91c8c2a.jpg" alt="ukWDOLL">
+                <img src="https://i.imgur.com/9Z8wX7r.png" alt="ukWDOLL">
             </div>
             <div class="title drill-font" style="text-align: center; margin-bottom: 40px; font-size: 36px;">ukWDOLL</div>
             <div style="text-align: center; margin-bottom: 30px;">
@@ -672,25 +769,58 @@
         </div>
     </div>
 
+    <!-- ВЫБОР ГОРОДА -->
+    <div class="modal" id="cityModal">
+        <div class="modal-content">
+            <div class="logo" style="margin: 0 auto 25px; width: 120px; height: 120px;">
+                <img src="https://i.imgur.com/9Z8wX7r.png" alt="ukWDOLL">
+            </div>
+            <div class="title drill-font" style="text-align: center; margin-bottom: 40px; font-size: 36px;" id="cityTitle">ВЫБЕРИТЕ ГОРОД</div>
+            <div style="text-align: center; margin-bottom: 30px;">
+                <button class="action-btn" onclick="setCity('lysva')" style="margin: 12px 0; background: linear-gradient(135deg, #8B0000, #ff0000);">🏙️ ЛЫСЬВА</button>
+                <button class="action-btn" onclick="setCity('chusovoy')" style="margin: 12px 0; background: linear-gradient(135deg, #8B0000, #ff0000);">🚗 ЧУСОВОЙ</button>
+            </div>
+        </div>
+    </div>
+
     <!-- АДМИН ПАНЕЛЬ -->
     <div class="modal" id="adminModal">
         <div class="modal-content">
             <h3 class="drill-font" style="color: var(--main-red); text-align: center; margin-bottom: 30px; font-size: 28px;">🔧 АДМИН ПАНЕЛЬ</h3>
             
-            <input type="text" id="adminProductName" class="admin-input" placeholder="НАЗВАНИЕ ТОВАРА">
-            <input type="number" id="adminProductPrice" class="admin-input" placeholder="ЦЕНА">
-            <input type="number" id="adminProductOldPrice" class="admin-input" placeholder="СТАРАЯ ЦЕНА">
-            <input type="text" id="adminProductDesc" class="admin-input" placeholder="ОПИСАНИЕ">
-            <input type="text" id="adminProductImage" class="admin-input" placeholder="URL КАРТИНКИ">
-            <input type="text" id="adminProductVideo" class="admin-input" placeholder="URL ВИДЕО (опционально)">
+            <div class="nav-tabs">
+                <div class="nav-tab active" onclick="showAdminTab('products')">📦 ТОВАРЫ</div>
+                <div class="nav-tab" onclick="showAdminTab('reviews')">⭐ ОТЗЫВЫ</div>
+            </div>
+
+            <!-- ТАБ ТОВАРОВ -->
+            <div id="adminProductsTab" class="admin-tab">
+                <input type="text" id="adminProductName" class="admin-input" placeholder="НАЗВАНИЕ ТОВАРА">
+                <input type="number" id="adminProductPrice" class="admin-input" placeholder="ЦЕНА">
+                <input type="number" id="adminProductOldPrice" class="admin-input" placeholder="СТАРАЯ ЦЕНА">
+                <input type="text" id="adminProductDesc" class="admin-input" placeholder="ОПИСАНИЕ">
+                <input type="text" id="adminProductImage" class="admin-input" placeholder="URL КАРТИНКИ">
+                
+                <select id="adminProductCategory" class="admin-select">
+                    <option value="alcohol">🥃 АЛКОГОЛЬ</option>
+                    <option value="hygiene">🧴 ГИГИЕНА</option>
+                    <option value="food">🍕 ПРОДУКТЫ</option>
+                </select>
+                
+                <button class="action-btn" onclick="addProduct()">➕ ДОБАВИТЬ ТОВАР</button>
+            </div>
+
+            <!-- ТАБ ОТЗЫВОВ -->
+            <div id="adminReviewsTab" class="admin-tab" style="display: none;">
+                <input type="text" id="adminReviewName" class="admin-input" placeholder="ИМЯ ПОЛЬЗОВАТЕЛЯ">
+                <input type="text" id="adminReviewCity" class="admin-input" placeholder="ГОРОД (Лысьва/Чусовой)">
+                <input type="number" id="adminReviewRating" class="admin-input" placeholder="РЕЙТИНГ (1-5)" min="1" max="5">
+                <textarea id="adminReviewText" class="admin-textarea" placeholder="ТЕКСТ ОТЗЫВА"></textarea>
+                <input type="text" id="adminReviewImage" class="admin-input" placeholder="URL АВАТАРА">
+                
+                <button class="action-btn" onclick="addReview()">➕ ДОБАВИТЬ ОТЗЫВ</button>
+            </div>
             
-            <select id="adminProductCategory" class="admin-select">
-                <option value="alcohol">🥃 АЛКОГОЛЬ</option>
-                <option value="hygiene">🧴 ГИГИЕНА</option>
-                <option value="food">🍕 ПРОДУКТЫ</option>
-            </select>
-            
-            <button class="action-btn" onclick="addProduct()">➕ ДОБАВИТЬ ТОВАР</button>
             <button class="close-btn" onclick="hideAdminPanel()">✖ ЗАКРЫТЬ</button>
             
             <div id="adminProductsList" style="margin-top: 30px;"></div>
@@ -711,18 +841,25 @@
 
     <div class="header">
         <div class="logo">
-            <img src="https://i.ibb.co/Cs12DxyK/116ff91c8c2a.jpg" alt="ukWDOLL">
+            <img src="https://i.imgur.com/9Z8wX7r.png" alt="ukWDOLL">
         </div>
         <div class="title drill-font" id="storeTitle">ukWDOLL DRILL SHOP</div>
         <div class="subtitle russo-font" id="storeSubtitle">Лысьва • Чусовой • Цены на 50-70% ниже 🚀</div>
         <button class="category-btn" onclick="showLegend()" id="legendBtn">💎 ИНФО О МАГАЗИНЕ</button>
     </div>
 
-    <button class="category-btn" onclick="showCategory('alcohol')" id="alcoholBtn">🥃 АЛКОГОЛЬ • WHISKEY & VODKA</button>
-    <button class="category-btn" onclick="showCategory('hygiene')" id="hygieneBtn">🧴 ГИГИЕНА • SHAMPOO & CARE</button>
-    <button class="category-btn" onclick="showCategory('food')" id="foodBtn">🍕 ПРОДУКТЫ • FOOD & SNACKS</button>
+    <!-- НАВИГАЦИЯ -->
+    <div class="nav-tabs">
+        <div class="nav-tab active" onclick="showTab('products')" id="productsTab">🛍️ ТОВАРЫ</div>
+        <div class="nav-tab" onclick="showTab('favorites')" id="favoritesTab">❤️ ИЗБРАННОЕ</div>
+        <div class="nav-tab" onclick="showTab('reviews')" id="reviewsTab">⭐ ОТЗЫВЫ</div>
+        <div class="nav-tab" onclick="showTab('info')" id="infoTab">ℹ️ ИНФО</div>
+    </div>
 
-    <div id="products"></div>
+    <!-- КОНТЕНТ -->
+    <div id="content">
+        <!-- Товары будут здесь -->
+    </div>
 
     <button class="cart-btn" onclick="showCart()">
         <span>🛒</span>
@@ -750,6 +887,15 @@
         </div>
     </div>
 
+    <!-- ИНФО О ДОСТАВКЕ -->
+    <div class="modal" id="infoModal">
+        <div class="modal-content">
+            <h3 style="color: var(--main-red); margin-bottom: 25px; text-align: center; font-family: 'Anton', sans-serif;">📍 ИНФОРМАЦИЯ О ДОСТАВКЕ</h3>
+            <div id="infoContent" style="line-height: 1.6; font-size: 16px; font-family: 'Oswald', sans-serif;"></div>
+            <button class="close-btn" onclick="hideInfo()">✖ ЗАКРЫТЬ</button>
+        </div>
+    </div>
+
     <script>
         // 🔥 ПЕРЕВОДЫ И КОНФИГУРАЦИЯ
         const translations = {
@@ -765,6 +911,13 @@
                 orderBtn: "📞 ОФОРМИТЬ ЗАКАЗ",
                 closeCartBtn: "✖ ЗАКРЫТЬ КОРЗИНУ",
                 legendTitle: "💎 ИНФО О МАГАЗИНЕ",
+                cityTitle: "ВЫБЕРИТЕ ГОРОД",
+                productsTab: "🛍️ ТОВАРЫ",
+                favoritesTab: "❤️ ИЗБРАННОЕ", 
+                reviewsTab: "⭐ ОТЗЫВЫ",
+                infoTab: "ℹ️ ИНФО",
+                noFavorites: "❤️ Нет избранных товаров",
+                noReviews: "⭐ Отзывов пока нет",
                 legendText: `<p style="margin-bottom: 20px;"><strong style="color: var(--main-gold); font-size: 18px;">🔥 ukWDOLL - DRILL COMMUNITY SHOP 🔥</strong></p>
                             <p style="margin-bottom: 20px;">🎯 <strong>ЧТО ЭТО?</strong><br>Мы - сообщество выгодных покупок в Пермском крае! Работаем с 2024 года и помогаем людям экономить 💰</p>
                             <p style="margin-bottom: 20px;">💎 <strong>ПОЧЕМУ ТАК ДЁШЕВО?</strong><br>
@@ -776,10 +929,8 @@
                             • Все товары АБСОЛЮТНО легальны 📋<br>
                             • Сроки годности проверяются 🔍<br>
                             • Соответствие стандартам качества ⭐</p>
-                            <p style="margin-bottom: 20px;">📍 <strong>ГЕОГРАФИЯ:</strong><br>
-                            Работаем в Лысьве и Чусовом 🗺️<br>
-                            Доставка в течение 24 часов ⏱️</p>
-                            <p style="color: var(--main-gold); font-weight: bold; font-size: 18px; text-align: center;">🎊 МЫ ДАЕМ ТОВАРУ ВТОРУЮ ЖИЗНЬ, А ВАМ - РЕАЛЬНУЮ ЭКОНОМИЮ! 🎊</p>`
+                            <p style="color: var(--main-gold); font-weight: bold; font-size: 18px; text-align: center;">🎊 МЫ ДАЕМ ТОВАРУ ВТОРУЮ ЖИЗНЬ, А ВАМ - РЕАЛЬНУЮ ЭКОНОМИЮ! 🎊</p>`,
+                infoText: `<div id="cityInfoContent"></div>`
             },
             en: {
                 title: "ukWDOLL DRILL SHOP",
@@ -793,6 +944,13 @@
                 orderBtn: "📞 PLACE ORDER", 
                 closeCartBtn: "✖ CLOSE CART",
                 legendTitle: "💎 ABOUT STORE",
+                cityTitle: "SELECT CITY",
+                productsTab: "🛍️ PRODUCTS",
+                favoritesTab: "❤️ FAVORITES",
+                reviewsTab: "⭐ REVIEWS", 
+                infoTab: "ℹ️ INFO",
+                noFavorites: "❤️ No favorite products",
+                noReviews: "⭐ No reviews yet",
                 legendText: `<p style="margin-bottom: 20px;"><strong style="color: var(--main-gold); font-size: 18px;">🔥 ukWDOLL - DRILL COMMUNITY SHOP 🔥</strong></p>
                             <p style="margin-bottom: 20px;">🎯 <strong>WHAT IS THIS?</strong><br>We are a profitable shopping community in Perm Region! Working since 2024 and helping people save money 💰</p>
                             <p style="margin-bottom: 20px;">💎 <strong>WHY SO CHEAP?</strong><br>
@@ -804,47 +962,131 @@
                             • All products are COMPLETELY legal 📋<br>
                             • Expiration dates are checked 🔍<br>
                             • Compliance with quality standards ⭐</p>
-                            <p style="margin-bottom: 20px;">📍 <strong>GEOGRAPHY:</strong><br>
-                            We work in Lysva and Chusovoy 🗺️<br>
-                            Delivery within 24 hours ⏱️</p>
-                            <p style="color: var(--main-gold); font-weight: bold; font-size: 18px; text-align: center;">🎊 WE GIVE PRODUCTS A SECOND LIFE, AND YOU GET REAL SAVINGS! 🎊</p>`
+                            <p style="color: var(--main-gold); font-weight: bold; font-size: 18px; text-align: center;">🎊 WE GIVE PRODUCTS A SECOND LIFE, AND YOU GET REAL SAVINGS! 🎊</p>`,
+                infoText: `<div id="cityInfoContent"></div>`
             }
         };
 
-        // 🎯 БАЗА ТОВАРОВ С ВИДЕО ПРИМЕРОМ
+        const cityInfo = {
+            lysva: {
+                ru: `<p style="margin-bottom: 15px;"><strong>🏙️ ЛЫСЬВА</strong></p>
+                    <p style="margin-bottom: 15px;"><strong>📍 Место встречи:</strong><br>
+                    Улица Шмидта, 37 (у входа алого паруса)<br>
+                    Место находится возле поповского сада, рядом 106 общежитие</p>
+                    <p style="margin-bottom: 15px;"><strong>⏰ Время работы:</strong><br>
+                    Ежедневно с 12:00 до 22:00</p>
+                    <p style="margin-bottom: 15px;"><strong>🚗 Бесплатная парковка</strong> рядом с местом встречи</p>`,
+                en: `<p style="margin-bottom: 15px;"><strong>🏙️ LYSVA</strong></p>
+                    <p style="margin-bottom: 15px;"><strong>📍 Meeting point:</strong><br>
+                    Schmidt Street, 37 (at the entrance of the scarlet sail)<br>
+                    The place is near Popovsky Garden, next to dormitory 106</p>
+                    <p style="margin-bottom: 15px;"><strong>⏰ Working hours:</strong><br>
+                    Daily from 12:00 to 22:00</p>
+                    <p style="margin-bottom: 15px;"><strong>🚗 Free parking</strong> near the meeting point</p>`
+            },
+            chusovoy: {
+                ru: `<p style="margin-bottom: 15px;"><strong>🚗 ЧУСОВОЙ</strong></p>
+                    <p style="margin-bottom: 15px;"><strong>📍 Доставка:</strong><br>
+                    Выезд на машине из Лысьвы<br>
+                    Нужно будет ждать - выезжаю по мере набора заказов</p>
+                    <p style="margin-bottom: 15px;"><strong>⏰ Время доставки:</strong><br>
+                    Обычно 2-3 раза в неделю<br>
+                    Точное время согласовывается индивидуально</p>
+                    <p style="margin-bottom: 15px;"><strong>🚚 Бесплатная доставка</strong> при заказе от 2000₽</p>`,
+                en: `<p style="margin-bottom: 15px;"><strong>🚗 CHUSOVOY</strong></p>
+                    <p style="margin-bottom: 15px;"><strong>📍 Delivery:</strong><br>
+                    Car trip from Lysva<br>
+                    You'll need to wait - I travel as orders accumulate</p>
+                    <p style="margin-bottom: 15px;"><strong>⏰ Delivery time:</strong><br>
+                    Usually 2-3 times per week<br>
+                    Exact time is agreed individually</p>
+                    <p style="margin-bottom: 15px;"><strong>🚚 Free delivery</strong> for orders over 2000₽</p>`
+            }
+        };
+
+        // 🎯 БАЗА ТОВАРОВ
         const products = {
             alcohol: [
-                {id: 1, name: "JAGERMEISTER 🥃", price: 1200, oldPrice: 2500, desc: "700ml • 35% • German masterpiece", image: "https://img.icons8.com/pastel-glyph/64/whiskey.png", video: "https://drive.google.com/uc?export=download&id=11UygM10ahjD07b3JAhWqRzzoFjfczUeV"},
-                {id: 2, name: "JACK DANIEL'S 🔥", price: 1500, oldPrice: 3000, desc: "700ml • 40% • Tennessee whiskey", image: "https://img.icons8.com/pastel-glyph/64/whiskey.png", video: ""},
-                {id: 3, name: "ABSOLUT VODKA ❄️", price: 800, oldPrice: 1800, desc: "500ml • 40% • Swedish purity", image: "https://img.icons8.com/pastel-glyph/64/whiskey.png", video: ""}
+                {id: 1, name: "JAGERMEISTER 🥃", price: 1200, oldPrice: 2500, desc: "700ml • 35% • German masterpiece", image: "https://i.imgur.com/3QZYX7c.png"},
+                {id: 2, name: "JACK DANIEL'S 🔥", price: 1500, oldPrice: 3000, desc: "700ml • 40% • Tennessee whiskey", image: "https://i.imgur.com/5X8w9z2.png"},
+                {id: 3, name: "ABSOLUT VODKA ❄️", price: 800, oldPrice: 1800, desc: "500ml • 40% • Swedish purity", image: "https://i.imgur.com/8Y7wV4a.png"}
             ],
             hygiene: [
-                {id: 4, name: "SHAMPOO CLEAN 🧴", price: 85, oldPrice: 200, desc: "250ml • For all hair types", image: "https://img.icons8.com/papercut/60/shampoo.png", video: ""},
-                {id: 5, name: "SHOWER GEL FRESH 🚿", price: 120, oldPrice: 280, desc: "500ml • Refreshing scent", image: "https://img.icons8.com/papercut/60/shampoo.png", video: ""},
-                {id: 6, name: "TOOTHPASTE SMILE 🦷", price: 65, oldPrice: 150, desc: "100ml • Complete protection", image: "https://img.icons8.com/papercut/60/shampoo.png", video: ""}
+                {id: 4, name: "SHAMPOO CLEAN 🧴", price: 85, oldPrice: 200, desc: "250ml • For all hair types", image: "https://i.imgur.com/d2MkY9j.png"},
+                {id: 5, name: "SHOWER GEL FRESH 🚿", price: 120, oldPrice: 280, desc: "500ml • Refreshing scent", image: "https://i.imgur.com/fG7H9qk.png"},
+                {id: 6, name: "TOOTHPASTE SMILE 🦷", price: 65, oldPrice: 150, desc: "100ml • Complete protection", image: "https://i.imgur.com/h5J8wLx.png"}
             ],
             food: [
-                {id: 7, name: "RUSSIAN CHEESE 🧀", price: 180, oldPrice: 350, desc: "200g • 45% • Premium quality", image: "https://img.icons8.com/emoji/48/cheese-wedge-emoji.png", video: ""},
-                {id: 8, name: "BUTTER GOLD 🧈", price: 120, oldPrice: 250, desc: "180g • 82% • Creamy taste", image: "https://img.icons8.com/external-smashingstocks-outline-color-smashing-stocks/66/external-butter-food-and-drinks-smashingstocks-outline-color-smashing-stocks.png", video: ""},
-                {id: 9, name: "CHOCOLATE SWEET 🍫", price: 65, oldPrice: 120, desc: "100g • Milk • Alpine taste", image: "https://img.icons8.com/emoji/48/cheese-wedge-emoji.png", video: ""}
+                {id: 7, name: "RUSSIAN CHEESE 🧀", price: 180, oldPrice: 350, desc: "200g • 45% • Premium quality", image: "https://i.imgur.com/jK9wL8m.png"},
+                {id: 8, name: "BUTTER GOLD 🧈", price: 120, oldPrice: 250, desc: "180g • 82% • Creamy taste", image: "https://i.imgur.com/mN7wV9z.png"},
+                {id: 9, name: "CHOCOLATE SWEET 🍫", price: 65, oldPrice: 120, desc: "100g • Milk • Alpine taste", image: "https://i.imgur.com/pL8wX4q.png"}
             ]
         };
 
+        // 🎯 БАЗА ОТЗЫВОВ
+        let reviews = [
+            {
+                id: 1,
+                name: "Алексей 🚀",
+                city: "Лысьва",
+                rating: 5,
+                text: "Заказывал виски - привезли быстро, цена в 2 раза ниже магазинной! Качество отличное, бутылка оригинальная. Теперь только здесь беру алкоголь!",
+                image: "https://i.imgur.com/abc123.jpg",
+                date: "2024-01-15"
+            },
+            {
+                id: 2, 
+                name: "Марина 💎",
+                city: "Чусовой",
+                rating: 5,
+                text: "Очень довольна покупкой! Шампунь и гель для душа по суперцене. Доставили в Чусовой без проблем, всё целое. Рекомендую!",
+                image: "https://i.imgur.com/def456.jpg",
+                date: "2024-01-10"
+            }
+        ];
+
         // 🎮 ПЕРЕМЕННЫЕ
         let cart = {};
+        let favorites = new Set();
         let currentLanguage = 'ru';
+        let currentCity = null;
         let currentCategory = 'alcohol';
+        let currentTab = 'products';
 
         // 🚀 ИНИЦИАЛИЗАЦИЯ
         function init() {
             const savedLanguage = localStorage.getItem('ukwdoll_language');
+            const savedCity = localStorage.getItem('ukwdoll_city');
+            const savedFavorites = localStorage.getItem('ukwdoll_favorites');
+            const savedCart = localStorage.getItem('ukwdoll_cart');
+            const savedReviews = localStorage.getItem('ukwdoll_reviews');
+
             if (savedLanguage) {
                 setLanguage(savedLanguage, false);
             } else {
                 document.getElementById('languageModal').style.display = 'flex';
+                return;
             }
-            showCategory('alcohol');
-            startEmojiAnimation();
+
+            if (savedFavorites) {
+                favorites = new Set(JSON.parse(savedFavorites));
+            }
+
+            if (savedCart) {
+                cart = JSON.parse(savedCart);
+                updateCartCount();
+            }
+
+            if (savedReviews) {
+                reviews = JSON.parse(savedReviews);
+            }
+
+            if (savedCity) {
+                currentCity = savedCity;
+                showTab('products');
+            } else {
+                document.getElementById('cityModal').style.display = 'flex';
+            }
         }
 
         // 🌍 УСТАНОВКА ЯЗЫКА
@@ -855,7 +1097,7 @@
             Object.keys(translations[lang]).forEach(key => {
                 const element = document.getElementById(key);
                 if (element) {
-                    if (key === 'legendText') {
+                    if (key === 'legendText' || key === 'infoText') {
                         element.innerHTML = translations[lang][key];
                     } else {
                         element.textContent = translations[lang][key];
@@ -871,22 +1113,69 @@
                 }, 500);
             }
             
-            showCategory(currentCategory);
+            updateCityInfo();
         }
 
-        // 🔄 ПОКАЗАТЬ ВЫБОР ЯЗЫКА
-        function showLanguageModal() {
-            document.getElementById('languageModal').style.display = 'flex';
+        // 🏙️ УСТАНОВКА ГОРОДА
+        function setCity(city) {
+            currentCity = city;
+            localStorage.setItem('ukwdoll_city', city);
+            document.getElementById('cityModal').style.display = 'none';
+            updateCityInfo();
+            showTab('products');
+        }
+
+        function updateCityInfo() {
+            if (currentCity && document.getElementById('cityInfoContent')) {
+                document.getElementById('cityInfoContent').innerHTML = cityInfo[currentCity][currentLanguage];
+            }
+        }
+
+        // 🔄 ПОКАЗАТЬ ВКЛАДКУ
+        function showTab(tab) {
+            currentTab = tab;
+            
+            // Обновляем активные кнопки
+            document.querySelectorAll('.nav-tab').forEach(navTab => {
+                navTab.classList.remove('active');
+            });
+            document.getElementById(tab + 'Tab').classList.add('active');
+            
+            const contentDiv = document.getElementById('content');
+            
+            switch(tab) {
+                case 'products':
+                    showCategory('alcohol');
+                    break;
+                case 'favorites':
+                    showFavorites();
+                    break;
+                case 'reviews':
+                    showReviews();
+                    break;
+                case 'info':
+                    showInfo();
+                    break;
+            }
         }
 
         // 🎯 ПОКАЗАТЬ КАТЕГОРИЮ ТОВАРОВ
         function showCategory(category) {
+            if (currentTab !== 'products') return;
+            
             currentCategory = category;
-            const productsDiv = document.getElementById('products');
-            productsDiv.innerHTML = '';
+            const contentDiv = document.getElementById('content');
+            contentDiv.innerHTML = '';
+            
+            // Кнопки категорий
+            contentDiv.innerHTML += `
+                <button class="category-btn" onclick="showCategory('alcohol')" id="alcoholBtn">${translations[currentLanguage].alcoholBtn}</button>
+                <button class="category-btn" onclick="showCategory('hygiene')" id="hygieneBtn">${translations[currentLanguage].hygieneBtn}</button>
+                <button class="category-btn" onclick="showCategory('food')" id="foodBtn">${translations[currentLanguage].foodBtn}</button>
+            `;
             
             if (!products[category] || products[category].length === 0) {
-                productsDiv.innerHTML = `<div style="text-align: center; color: var(--text-gray); padding: 60px 20px;">
+                contentDiv.innerHTML += `<div style="text-align: center; color: var(--text-gray); padding: 60px 20px;">
                     <div style="font-size: 64px; margin-bottom: 25px;">😔</div>
                     <div style="font-size: 18px; font-family: 'Russo One', sans-serif;">${currentLanguage === 'ru' ? 'Товары временно отсутствуют' : 'Products temporarily unavailable'}</div>
                 </div>`;
@@ -894,10 +1183,14 @@
             }
             
             products[category].forEach(product => {
-                productsDiv.innerHTML += `
+                const isFavorite = favorites.has(product.id);
+                contentDiv.innerHTML += `
                     <div class="product" onclick="showProductModal(${product.id})">
+                        <button class="favorite-btn ${isFavorite ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite(${product.id})">
+                            ${isFavorite ? '❤️' : '🤍'}
+                        </button>
                         <div class="product-image">
-                            <img src="${product.image}" alt="${product.name}">
+                            <img src="${product.image}" alt="${product.name}" onerror="this.src='https://i.imgur.com/3QZYX7c.png'">
                         </div>
                         <div class="product-info">
                             <div class="product-name">${product.name}</div>
@@ -918,94 +1211,122 @@
             });
         }
 
-        // 🎪 КАРТОЧКА ТОВАРА
-        function showProductModal(productId) {
-            const product = findProduct(productId);
-            if (!product) return;
+        // ❤️ ИЗБРАННОЕ
+        function toggleFavorite(productId) {
+            if (favorites.has(productId)) {
+                favorites.delete(productId);
+            } else {
+                favorites.add(productId);
+            }
+            localStorage.setItem('ukwdoll_favorites', JSON.stringify([...favorites]));
             
-            const modalContent = document.getElementById('productModalContent');
-            modalContent.innerHTML = `
-                <h3 class="drill-font" style="color: var(--main-red); text-align: center; margin-bottom: 25px; font-size: 28px;">${product.name}</h3>
-                
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <img src="${product.image}" alt="${product.name}" style="width: 120px; height: 120px; border-radius: 20px; border: 3px solid var(--main-red);">
-                </div>
-                
-                <div style="background: var(--light-gray); padding: 20px; border-radius: 15px; margin-bottom: 20px;">
-                    <div style="color: var(--text-gray); font-size: 16px; line-height: 1.6; margin-bottom: 15px;">${product.desc}</div>
-                    <div class="product-price" style="justify-content: center; font-size: 28px;">
-                        ${product.price} 
-                        <img width="24" height="24" src="https://img.icons8.com/office/40/ruble.png" alt="ruble" style="margin-left: 10px;">
-                        <span class="product-old-price" style="font-size: 20px;">${product.oldPrice} ₽</span>
+            if (currentTab === 'favorites') {
+                showFavorites();
+            } else {
+                showCategory(currentCategory);
+            }
+        }
+
+        function showFavorites() {
+            const contentDiv = document.getElementById('content');
+            contentDiv.innerHTML = '';
+            
+            const favoriteProducts = [];
+            for (const category in products) {
+                products[category].forEach(product => {
+                    if (favorites.has(product.id)) {
+                        favoriteProducts.push(product);
+                    }
+                });
+            }
+            
+            if (favoriteProducts.length === 0) {
+                contentDiv.innerHTML = `<div style="text-align: center; color: var(--text-gray); padding: 60px 20px;">
+                    <div style="font-size: 64px; margin-bottom: 25px;">❤️</div>
+                    <div style="font-size: 18px; font-family: 'Russo One', sans-serif;">${translations[currentLanguage].noFavorites}</div>
+                </div>`;
+                return;
+            }
+            
+            favoriteProducts.forEach(product => {
+                contentDiv.innerHTML += `
+                    <div class="product" onclick="showProductModal(${product.id})">
+                        <button class="favorite-btn active" onclick="event.stopPropagation(); toggleFavorite(${product.id})">
+                            ❤️
+                        </button>
+                        <div class="product-image">
+                            <img src="${product.image}" alt="${product.name}" onerror="this.src='https://i.imgur.com/3QZYX7c.png'">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">${product.name}</div>
+                            <div class="product-desc">${product.desc}</div>
+                            <div class="product-price">
+                                ${product.price} 
+                                <img width="20" height="20" src="https://img.icons8.com/office/40/ruble.png" alt="ruble" style="margin-left: 8px;">
+                                <span class="product-old-price">${product.oldPrice} ₽</span>
+                            </div>
+                            <div class="quantity-controls">
+                                <button class="quantity-btn" onclick="event.stopPropagation(); changeQuantity(${product.id}, -1)">-</button>
+                                <span class="quantity" id="qty-${product.id}">${cart[product.id] || 0}</span>
+                                <button class="quantity-btn" onclick="event.stopPropagation(); changeQuantity(${product.id}, 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // ⭐ ОТЗЫВЫ
+        function showReviews() {
+            const contentDiv = document.getElementById('content');
+            contentDiv.innerHTML = '';
+            
+            if (reviews.length === 0) {
+                contentDiv.innerHTML = `<div style="text-align: center; color: var(--text-gray); padding: 60px 20px;">
+                    <div style="font-size: 64px; margin-bottom: 25px;">⭐</div>
+                    <div style="font-size: 18px; font-family: 'Russo One', sans-serif;">${translations[currentLanguage].noReviews}</div>
+                </div>`;
+                return;
+            }
+            
+            reviews.forEach(review => {
+                const stars = '⭐'.repeat(review.rating);
+                contentDiv.innerHTML += `
+                    <div class="review-card">
+                        <div class="review-header">
+                            <img src="${review.image}" alt="${review.name}" class="review-avatar" onerror="this.src='https://i.imgur.com/3QZYX7c.png'">
+                            <div class="review-info">
+                                <div class="review-name">${review.name}</div>
+                                <div class="review-city">${review.city}</div>
+                                <div class="review-rating">${stars}</div>
+                            </div>
+                        </div>
+                        <div class="review-text">${review.text}</div>
+                    </div>
+                `;
+            });
+        }
+
+        // ℹ️ ИНФОРМАЦИЯ
+        function showInfo() {
+            const contentDiv = document.getElementById('content');
+            contentDiv.innerHTML = `
+                <div class="product" style="cursor: default;">
+                    <div class="product-info">
+                        <div class="product-name">📍 ${currentLanguage === 'ru' ? 'ИНФОРМАЦИЯ О ДОСТАВКЕ' : 'DELIVERY INFORMATION'}</div>
+                        <div class="product-desc">
+                            ${currentCity ? cityInfo[currentCity][currentLanguage] : (currentLanguage === 'ru' ? 'Выберите город для просмотра информации' : 'Select city to view information')}
+                        </div>
                     </div>
                 </div>
-                
-                ${product.video ? `
-                <div style="margin-bottom: 20px;">
-                    <div style="color: var(--main-gold); font-family: 'Russo One', sans-serif; margin-bottom: 10px; text-align: center;">🎥 ВИДЕО ОБЗОР</div>
-                    <video controls class="product-video">
-                        <source src="${product.video}" type="video/mp4">
-                        ${currentLanguage === 'ru' ? 'Ваш браузер не поддерживает видео' : 'Your browser does not support video'}
-                    </video>
-                </div>
-                ` : `
-                <div class="video-placeholder">
-                    ${currentLanguage === 'ru' ? '🎬 Видео обзор отсутствует' : '🎬 No video review available'}
-                </div>
-                `}
-                
-                <div class="quantity-controls" style="margin-top: 25px;">
-                    <button class="quantity-btn" onclick="changeQuantity(${product.id}, -1)">-</button>
-                    <span class="quantity" id="modal-qty-${product.id}">${cart[product.id] || 0}</span>
-                    <button class="quantity-btn" onclick="changeQuantity(${product.id}, 1)">+</button>
-                </div>
-                
-                <button class="action-btn" onclick="addToCartFromModal(${product.id})" style="margin-top: 20px;">
-                    🛒 ${currentLanguage === 'ru' ? 'ДОБАВИТЬ В КОРЗИНУ' : 'ADD TO CART'}
+                <button class="category-btn" onclick="showCityModal()">
+                    🌍 ${currentLanguage === 'ru' ? 'СМЕНИТЬ ГОРОД' : 'CHANGE CITY'}
                 </button>
             `;
-            
-            document.getElementById('productModal').style.display = 'flex';
-            createProductEmojis();
         }
-        
-        function addToCartFromModal(productId) {
-            if (!cart[productId]) cart[productId] = 0;
-            cart[productId]++;
-            updateCartCount();
-            document.getElementById(`qty-${productId}`).textContent = cart[productId];
-            document.getElementById(`modal-qty-${productId}`).textContent = cart[productId];
-            
-            // Анимация успеха
-            const modal = document.getElementById('productModal');
-            modal.style.animation = 'shake 0.5s';
-            setTimeout(() => modal.style.animation = '', 500);
-        }
-        
-        function hideProductModal() {
-            document.getElementById('productModal').style.display = 'none';
-        }
-        
-        function createProductEmojis() {
-            const emojis = [
-                {emoji: "💰", class: "emoji-discount", top: "10%", left: "5%", delay: "0s"},
-                {emoji: "⭐", class: "emoji-quality", top: "20%", right: "8%", delay: "1s"},
-                {emoji: "🎯", class: "emoji-order", top: "40%", left: "3%", delay: "2s"},
-                {emoji: "🔥", class: "emoji-discount", top: "60%", right: "5%", delay: "3s"},
-                {emoji: "💎", class: "emoji-quality", top: "80%", left: "7%", delay: "4s"}
-            ];
-            
-            const modalContent = document.getElementById('productModalContent');
-            emojis.forEach(emoji => {
-                const emojiElement = document.createElement('div');
-                emojiElement.className = `floating-badge ${emoji.class}`;
-                emojiElement.innerHTML = emoji.emoji;
-                emojiElement.style.top = emoji.top;
-                emojiElement.style.left = emoji.left;
-                emojiElement.style.right = emoji.right;
-                emojiElement.style.animationDelay = emoji.delay;
-                modalContent.appendChild(emojiElement);
-            });
+
+        function showCityModal() {
+            document.getElementById('cityModal').style.display = 'flex';
         }
 
         // 🔧 АДМИН ПАНЕЛЬ
@@ -1019,6 +1340,18 @@
             }
         }
 
+        function showAdminTab(tab) {
+            document.querySelectorAll('.admin-tab').forEach(adminTab => {
+                adminTab.style.display = 'none';
+            });
+            document.querySelectorAll('.nav-tab').forEach(navTab => {
+                navTab.classList.remove('active');
+            });
+            
+            document.getElementById('admin' + tab.charAt(0).toUpperCase() + tab.slice(1) + 'Tab').style.display = 'block';
+            event.target.classList.add('active');
+        }
+
         function hideAdminPanel() {
             document.getElementById('adminModal').style.display = 'none';
         }
@@ -1029,7 +1362,6 @@
             const oldPrice = parseInt(document.getElementById('adminProductOldPrice').value);
             const desc = document.getElementById('adminProductDesc').value;
             const image = document.getElementById('adminProductImage').value;
-            const video = document.getElementById('adminProductVideo').value;
             const category = document.getElementById('adminProductCategory').value;
             
             if (!name || !price) {
@@ -1044,8 +1376,7 @@
                 price: price,
                 oldPrice: oldPrice || price * 2,
                 desc: desc || (currentLanguage === 'ru' ? "Описание отсутствует" : "No description"),
-                image: image || "https://img.icons8.com/ios/50/package--v1.png",
-                video: video || ""
+                image: image || "https://i.imgur.com/3QZYX7c.png"
             };
             
             if (!products[category]) products[category] = [];
@@ -1056,14 +1387,51 @@
             
             alert(currentLanguage === 'ru' ? "✅ Товар добавлен!" : "✅ Product added!");
         }
-        
+
+        function addReview() {
+            const name = document.getElementById('adminReviewName').value;
+            const city = document.getElementById('adminReviewCity').value;
+            const rating = parseInt(document.getElementById('adminReviewRating').value);
+            const text = document.getElementById('adminReviewText').value;
+            const image = document.getElementById('adminReviewImage').value;
+            
+            if (!name || !rating || !text) {
+                alert(currentLanguage === 'ru' ? "❌ Заполните имя, рейтинг и текст!" : "❌ Fill name, rating and text!");
+                return;
+            }
+            
+            const newReview = {
+                id: Date.now(),
+                name: name,
+                city: city || (currentLanguage === 'ru' ? "Лысьва" : "Lysva"),
+                rating: rating,
+                text: text,
+                image: image || "https://i.imgur.com/3QZYX7c.png",
+                date: new Date().toISOString().split('T')[0]
+            };
+            
+            reviews.push(newReview);
+            localStorage.setItem('ukwdoll_reviews', JSON.stringify(reviews));
+            
+            clearAdminReviewForm();
+            
+            alert(currentLanguage === 'ru' ? "✅ Отзыв добавлен!" : "✅ Review added!");
+        }
+
         function clearAdminForm() {
             document.getElementById('adminProductName').value = '';
             document.getElementById('adminProductPrice').value = '';
             document.getElementById('adminProductOldPrice').value = '';
             document.getElementById('adminProductDesc').value = '';
             document.getElementById('adminProductImage').value = '';
-            document.getElementById('adminProductVideo').value = '';
+        }
+
+        function clearAdminReviewForm() {
+            document.getElementById('adminReviewName').value = '';
+            document.getElementById('adminReviewCity').value = '';
+            document.getElementById('adminReviewRating').value = '';
+            document.getElementById('adminReviewText').value = '';
+            document.getElementById('adminReviewImage').value = '';
         }
 
         function loadAdminProducts() {
@@ -1079,7 +1447,7 @@
                             <div style="display: flex; justify-content: space-between; align-items: center;">
                                 <div style="flex: 1;">
                                     <strong style="color: var(--text-white); font-family: 'Russo One', sans-serif;">${product.name}</strong><br>
-                                    <small style="color: var(--text-gray);">${product.price}₽ • ${category} ${product.video ? '🎥' : ''}</small>
+                                    <small style="color: var(--text-gray);">${product.price}₽ • ${category}</small>
                                 </div>
                                 <div style="display: flex; gap: 10px;">
                                     <button class="cart-remove-btn" onclick="editProduct(${product.id})" style="background: var(--main-gold); color: black;">✏️</button>
@@ -1103,15 +1471,12 @@
             const product = findProduct(productId);
             if (!product) return;
             
-            // Заполняем форму данными товара
             document.getElementById('adminProductName').value = product.name;
             document.getElementById('adminProductPrice').value = product.price;
             document.getElementById('adminProductOldPrice').value = product.oldPrice;
             document.getElementById('adminProductDesc').value = product.desc;
             document.getElementById('adminProductImage').value = product.image;
-            document.getElementById('adminProductVideo').value = product.video;
             
-            // Находим категорию товара
             for (const category in products) {
                 if (products[category].find(p => p.id === productId)) {
                     document.getElementById('adminProductCategory').value = category;
@@ -1119,7 +1484,6 @@
                 }
             }
             
-            // Удаляем старый товар
             removeProduct(productId, false);
             
             alert(currentLanguage === 'ru' ? "✏️ Редактируйте товар и нажмите 'Добавить товар'" : "✏️ Edit product and click 'Add Product'");
@@ -1150,10 +1514,8 @@
             if (cart[productId] < 0) cart[productId] = 0;
             
             document.getElementById(`qty-${productId}`).textContent = cart[productId];
-            if (document.getElementById(`modal-qty-${productId}`)) {
-                document.getElementById(`modal-qty-${productId}`).textContent = cart[productId];
-            }
             updateCartCount();
+            localStorage.setItem('ukwdoll_cart', JSON.stringify(cart));
         }
 
         function updateCartCount() {
@@ -1227,6 +1589,7 @@
             showCart();
             updateCartCount();
             showCategory(currentCategory);
+            localStorage.setItem('ukwdoll_cart', JSON.stringify(cart));
         }
 
         function hideCart() {
@@ -1242,7 +1605,16 @@
         }
 
         function sendOrder() {
-            let orderText = currentLanguage === 'ru' ? "🛒 ЗАКАЗ из ukWDOLL:\n\n" : "🛒 ORDER from ukWDOLL:\n\n";
+            if (!currentCity) {
+                alert(currentLanguage === 'ru' ? "❌ Сначала выберите город!" : "❌ Select city first!");
+                document.getElementById('cityModal').style.display = 'flex';
+                return;
+            }
+
+            let orderText = currentLanguage === 'ru' ? 
+                `🛒 ЗАКАЗ из ukWDOLL\n\n` :
+                `🛒 ORDER from ukWDOLL\n\n`;
+            
             let total = 0;
             let itemCount = 0;
             
@@ -1264,14 +1636,18 @@
             }
             
             orderText += `\n💰 ${currentLanguage === 'ru' ? 'ОБЩАЯ СУММА' : 'TOTAL'}: ${total}₽`;
-            orderText += `\n\n📍 ${currentLanguage === 'ru' ? 'Город' : 'City'}: ________`;
-            orderText += `\n📞 ${currentLanguage === 'ru' ? 'Телефон' : 'Phone'}: ________`;
-            orderText += `\n🏠 ${currentLanguage === 'ru' ? 'Адрес' : 'Address'}: ________`;
+            orderText += `\n\n📍 ${currentLanguage === 'ru' ? 'Город' : 'City'}: ${currentCity === 'lysva' ? 'Лысьва' : 'Чусовой'}`;
             orderText += `\n\n${currentLanguage === 'ru' ? 'Для оформления заказа свяжитесь с' : 'For order contact'} @HXNS_59Gz`;
             orderText += `\n\n${currentLanguage === 'ru' ? 'Спасибо за заказ! 😊' : 'Thank you for your order! 😊'}`;
             
             const telegramUrl = `https://t.me/HXNS_59Gz?text=${encodeURIComponent(orderText)}`;
             window.open(telegramUrl, '_blank');
+            
+            // Очищаем корзину после заказа
+            cart = {};
+            updateCartCount();
+            localStorage.setItem('ukwdoll_cart', JSON.stringify(cart));
+            hideCart();
         }
 
         // 💎 ЛЕГЕНДА МАГАЗИНА
@@ -1283,17 +1659,20 @@
             document.getElementById('legendModal').style.display = 'none';
         }
 
-        // 🎪 АНИМАЦИИ СМАЙЛОВ
-        function startEmojiAnimation() {
-            const emojis = document.querySelectorAll('.floating-emoji');
-            emojis.forEach((emoji, index) => {
-                emoji.style.animationDelay = `${index * 2}s`;
-                emoji.style.opacity = '1';
-            });
+        function showInfoModal() {
+            document.getElementById('infoModal').style.display = 'flex';
+        }
+
+        function hideInfo() {
+            document.getElementById('infoModal').style.display = 'none';
+        }
+
+        function showLanguageModal() {
+            document.getElementById('languageModal').style.display = 'flex';
         }
 
         // 🚀 ЗАПУСК
         window.onload = init;
     </script>
 </body>
-                </html>
+                    </html>
