@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>ukWDOLL • DRILL SHOP</title>
+    <title>ukWDOLL • МАГАЗИН</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
@@ -9,178 +9,364 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial Black', sans-serif;
+            font-family: 'Arial', sans-serif;
         }
         
         body {
-            background: #000;
-            color: #fff;
+            background: #1a1a1a;
+            color: #e0e0e0;
             padding: 10px;
         }
         
         .header {
             text-align: center;
             padding: 15px 0;
-            border-bottom: 2px solid #8B0000;
             margin-bottom: 20px;
+            background: #2a2a2a;
+            border-radius: 10px;
         }
         
         .title {
-            font-size: 24px;
-            color: #8B0000;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            font-size: 22px;
+            color: #ff6b6b;
+            margin-bottom: 5px;
         }
         
         .subtitle {
             font-size: 12px;
-            color: #666;
-            margin-top: 5px;
+            color: #888;
         }
         
         .category-btn {
-            background: #111;
-            border: 1px solid #8B0000;
+            background: #2a2a2a;
+            border: none;
             color: #fff;
             padding: 15px;
-            margin: 8px 0;
-            border-radius: 8px;
+            margin: 5px 0;
+            border-radius: 10px;
             font-size: 16px;
             width: 100%;
-            text-align: left;
             cursor: pointer;
             transition: all 0.3s;
+            border-left: 4px solid #ff6b6b;
         }
         
         .category-btn:hover {
-            background: #8B0000;
+            background: #3a3a3a;
             transform: translateX(5px);
         }
         
         .product {
-            background: #111;
-            border: 1px solid #333;
+            background: #2a2a2a;
+            border-radius: 10px;
             padding: 15px;
             margin: 10px 0;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .product-image {
+            width: 60px;
+            height: 60px;
+            background: #3a3a3a;
             border-radius: 8px;
+            float: left;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .product-info {
+            overflow: hidden;
         }
         
         .product-name {
-            color: #8B0000;
+            color: #fff;
             font-size: 16px;
             margin-bottom: 5px;
         }
         
+        .product-desc {
+            color: #888;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+        
         .product-price {
-            color: #fff;
+            color: #ff6b6b;
             font-size: 18px;
+            font-weight: bold;
         }
         
         .product-old-price {
             color: #666;
             text-decoration: line-through;
             font-size: 12px;
+            margin-left: 10px;
         }
         
-        .add-btn {
-            background: #8B0000;
-            color: #000;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
+        .quantity-controls {
+            display: flex;
+            align-items: center;
             margin-top: 10px;
         }
         
-        .cart {
+        .quantity-btn {
+            background: #3a3a3a;
+            border: none;
+            color: #fff;
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .quantity {
+            margin: 0 10px;
+            color: #fff;
+        }
+        
+        .cart-btn {
             position: fixed;
-            bottom: 10px;
-            right: 10px;
-            background: #8B0000;
-            color: #000;
-            padding: 10px 15px;
-            border-radius: 50%;
+            bottom: 20px;
+            right: 20px;
+            background: #ff6b6b;
+            color: #fff;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 50px;
             font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+            animation: pulse 2s infinite;
         }
         
-        .contact {
-            text-align: center;
-            margin-top: 20px;
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .cart-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .cart-content {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #3a3a3a;
+        }
+        
+        .order-btn {
+            background: #ff6b6b;
+            color: #fff;
+            border: none;
             padding: 15px;
-            background: #111;
-            border-radius: 8px;
+            border-radius: 10px;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
         }
         
-        .contact a {
-            color: #8B0000;
-            text-decoration: none;
-            font-weight: bold;
+        .order-btn:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <div class="title">ukWDOLL • DRILL SHOP</div>
-        <div class="subtitle">Лысьва • Чусовой • 50-70% НИЖЕ</div>
+        <div class="title">🛒 ukWDOLL МАГАЗИН</div>
+        <div class="subtitle">Лысьва • Чусовой • Цены на 50-70% ниже</div>
     </div>
 
-    <button class="category-btn" onclick="showCategory('hygiene')">❶ ГИГИЕНА</button>
-    <button class="category-btn" onclick="showCategory('food')">❷ ПРОДУКТЫ</button>
-    <button class="category-btn" onclick="showCategory('clothes')">❸ ОДЕЖДА</button>
+    <button class="category-btn" onclick="showCategory('alcohol')">🍷 АЛКОГОЛЬ</button>
+    <button class="category-btn" onclick="showCategory('hygiene')">🧴 ГИГИЕНА</button>
+    <button class="category-btn" onclick="showCategory('food')">🍕 ПРОДУКТЫ</button>
 
     <div id="products"></div>
 
-    <div class="contact">
-        📞 ДЛЯ ЗАКАЗА: <a href="https://t.me/HXNS_59Gz">@HXNS_59Gz</a><br>
-        <span style="color: #666; font-size: 12px;">Цены на 50-70% ниже магазинов</span>
-    </div>
+    <button class="cart-btn" onclick="showCart()">🛒 Корзина (<span id="cart-count">0</span>)</button>
 
-    <div class="cart" id="cart">0</div>
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <h3>🛒 Ваш заказ</h3>
+            <div id="cart-items"></div>
+            <div id="cart-total"></div>
+            <button class="order-btn" onclick="sendOrder()">📞 ОФОРМИТЬ ЗАКАЗ</button>
+            <button class="quantity-btn" onclick="hideCart()" style="margin-top: 10px; width: 100%;">✖ Закрыть</button>
+        </div>
+    </div>
 
     <script>
         const products = {
+            alcohol: [
+                {id: 1, name: "JAGERMEISTER", price: 1200, oldPrice: 2500, desc: "700ml • 35%", emoji: "🥃"},
+                {id: 2, name: "JACK DANIEL'S", price: 1500, oldPrice: 3000, desc: "700ml • 40%", emoji: "🥃"},
+                {id: 3, name: "ABSOLUT VODKA", price: 800, oldPrice: 1800, desc: "500ml • 40%", emoji: "🍸"},
+                {id: 4, name: "JAMESON", price: 1300, oldPrice: 2600, desc: "700ml • 40%", emoji: "🥃"}
+            ],
             hygiene: [
-                {name: "🫧 ШАМПУНЬ CLEAN", price: 85, oldPrice: 200},
-                {name: "🧴 ГЕЛЬ ДУШ FRESH", price: 120, oldPrice: 280},
-                {name: "🪥 ЗУБНАЯ ПАСТА", price: 65, oldPrice: 150}
+                {id: 5, name: "ШАМПУНЬ CLEAN", price: 85, oldPrice: 200, desc: "250ml • Для всех типов", emoji: "🧴"},
+                {id: 6, name: "ГЕЛЬ ДУШ FRESH", price: 120, oldPrice: 280, desc: "500ml • Освежающий", emoji: "🚿"},
+                {id: 7, name: "ЗУБНАЯ ПАСТА", price: 65, oldPrice: 150, desc: "100ml • Защита", emoji: "🪥"},
+                {id: 8, name: "МЫЛО ЖИДКОЕ", price: 95, oldPrice: 220, desc: "300ml • Антибактериальное", emoji: "🧼"}
             ],
             food: [
-                {name: "🍫 ШОКОЛАД ALPEN", price: 65, oldPrice: 120},
-                {name: "🥛 МОЛОКО 1Л", price: 55, oldPrice: 80},
-                {name: "🍞 ХЛЕБ", price: 25, oldPrice: 40}
-            ],
-            clothes: [
-                {name: "👕 ФУТБОЛКА BLACK", price: 250, oldPrice: 500},
-                {name: "👖 ДЖИНСЫ DRILL", price: 800, oldPrice: 1500}
+                {id: 9, name: "СЫР РОССИЙСКИЙ", price: 180, oldPrice: 350, desc: "200g • 45%", emoji: "🧀"},
+                {id: 10, name: "МАСЛО СЛИВОЧНОЕ", price: 120, oldPrice: 250, desc: "180g • 82%", emoji: "🧈"},
+                {id: 11, name: "КОНСЕРВЫ ТУШЕНКА", price: 150, oldPrice: 300, desc: "338g • Говядина", emoji: "🥫"},
+                {id: 12, name: "ШОКОЛАД ALPEN", price: 65, oldPrice: 120, desc: "100g • Молочный", emoji: "🍫"}
             ]
         };
 
-        let cartCount = 0;
+        let cart = {};
+        let currentCategory = 'alcohol';
 
         function showCategory(category) {
+            currentCategory = category;
             const productsDiv = document.getElementById('products');
             productsDiv.innerHTML = '';
             
             products[category].forEach(product => {
                 productsDiv.innerHTML += `
                     <div class="product">
-                        <div class="product-name">${product.name}</div>
-                        <div class="product-price">${product.price} РУБ</div>
-                        <div class="product-old-price">было ${product.oldPrice} руб</div>
-                        <button class="add-btn" onclick="addToCart()">+ В КОРЗИНУ</button>
+                        <div class="product-image">${product.emoji}</div>
+                        <div class="product-info">
+                            <div class="product-name">${product.name}</div>
+                            <div class="product-desc">${product.desc}</div>
+                            <div>
+                                <span class="product-price">${product.price} ₽</span>
+                                <span class="product-old-price">${product.oldPrice} ₽</span>
+                            </div>
+                            <div class="quantity-controls">
+                                <button class="quantity-btn" onclick="changeQuantity(${product.id}, -1)">-</button>
+                                <span class="quantity" id="qty-${product.id}">${cart[product.id] || 0}</span>
+                                <button class="quantity-btn" onclick="changeQuantity(${product.id}, 1)">+</button>
+                            </div>
+                        </div>
                     </div>
                 `;
             });
         }
 
-        function addToCart() {
-            cartCount++;
-            document.getElementById('cart').textContent = cartCount;
+        function changeQuantity(productId, change) {
+            if (!cart[productId]) cart[productId] = 0;
+            cart[productId] += change;
+            if (cart[productId] < 0) cart[productId] = 0;
+            
+            document.getElementById(`qty-${productId}`).textContent = cart[productId];
+            updateCartCount();
         }
 
-        // Показываем гигиену по умолчанию
-        showCategory('hygiene');
+        function updateCartCount() {
+            const total = Object.values(cart).reduce((sum, qty) => sum + qty, 0);
+            document.getElementById('cart-count').textContent = total;
+        }
+
+        function showCart() {
+            const modal = document.getElementById('cartModal');
+            const itemsDiv = document.getElementById('cart-items');
+            const totalDiv = document.getElementById('cart-total');
+            
+            itemsDiv.innerHTML = '';
+            let total = 0;
+            let itemCount = 0;
+            
+            Object.keys(cart).forEach(productId => {
+                if (cart[productId] > 0) {
+                    const product = findProduct(parseInt(productId));
+                    if (product) {
+                        const sum = product.price * cart[productId];
+                        total += sum;
+                        itemCount += cart[productId];
+                        
+                        itemsDiv.innerHTML += `
+                            <div class="cart-item">
+                                <div>${product.emoji} ${product.name} ×${cart[productId]}</div>
+                                <div>${sum} ₽</div>
+                            </div>
+                        `;
+                    }
+                }
+            });
+            
+            if (itemCount === 0) {
+                itemsDiv.innerHTML = '<div style="text-align: center; color: #888;">Корзина пуста</div>';
+            }
+            
+            totalDiv.innerHTML = itemCount > 0 ? `<h4>Итого: ${total} ₽</h4>` : '';
+            modal.style.display = 'flex';
+        }
+
+        function hideCart() {
+            document.getElementById('cartModal').style.display = 'none';
+        }
+
+        function findProduct(id) {
+            for (let category in products) {
+                const product = products[category].find(p => p.id === id);
+                if (product) return product;
+            }
+            return null;
+        }
+
+        function sendOrder() {
+            let orderText = "🛒 ЗАКАЗ из ukWDOLL:\n\n";
+            let total = 0;
+            
+            Object.keys(cart).forEach(productId => {
+                if (cart[productId] > 0) {
+                    const product = findProduct(parseInt(productId));
+                    if (product) {
+                        const sum = product.price * cart[productId];
+                        total += sum;
+                        orderText += `${product.emoji} ${product.name} - ${cart[productId]}шт × ${product.price}₽ = ${sum}₽\n`;
+                    }
+                }
+            });
+            
+            orderText += `\n💰 ОБЩАЯ СУММА: ${total}₽`;
+            orderText += `\n📍 Город: ________`;
+            orderText += `\n📞 Телефон: ________`;
+            orderText += `\n\nДля оформления заказа свяжитесь с @HXNS_59Gz`;
+            
+            // Открываем телеграм с готовым текстом заказа
+            const telegramUrl = `https://t.me/HXNS_59Gz?text=${encodeURIComponent(orderText)}`;
+            window.open(telegramUrl, '_blank');
+        }
+
+        // Показываем алкоголь по умолчанию
+        showCategory('alcohol');
     </script>
 </body>
 </html>
